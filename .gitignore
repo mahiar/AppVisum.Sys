@@ -1,0 +1,4 @@
+bin/AppVisum*
+bin/Debug/AppVisum*
+bin/Release
+obj/
