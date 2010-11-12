@@ -121,6 +121,14 @@ namespace AppVisum.Sys
             }
         }
 
+        public IEnumerable<Plugin> GetTypeMatchingPlugins(Type type)
+        {
+            if (type.IsInterface)
+                return installedPluggins.Where(p => p.PluginObj.GetType().HasInterface(type));
+            else
+                return installedPluggins.Where(p => p.PluginObj.GetType() == type);
+        }
+
         public IDocumentSession GetDBSession()
         {
             return db.OpenSession();
