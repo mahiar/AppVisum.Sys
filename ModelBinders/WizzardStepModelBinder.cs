@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
-namespace AppVisum.Sys
+namespace AppVisum.Sys.ModelBinders
 {
     public class WizzardStepModelBinder : DefaultModelBinder
     {
@@ -21,7 +21,11 @@ namespace AppVisum.Sys
             Type wizType = plugin.P<IAppProviderInstallWizzard>().GetStep(plugin.InstallStep).GetType();
 
             foreach (var prop in wizType.GetProperties())
+            {
                 bindingContext.PropertyMetadata[prop.Name] = ModelMetadataProviders.Current.GetMetadataForProperty(null, wizType, prop.Name);
+                if (bindingContext.PropertyMetadata[prop.Name].ModelType.HasInterface(typeof(IAppProvider)))
+                    bindingContext.PropertyMetadata[prop.Name] = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(IAppProvider));
+            }
 
             bindingContext.ModelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, wizType);
 

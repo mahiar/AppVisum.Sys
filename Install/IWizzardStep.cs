@@ -9,5 +9,6 @@ namespace AppVisum.Sys.Install
     public interface IWizzardStep
     {
         string GetTitle();
+        void SetAppProvider(IAppProviderInstallWizzard appProvider);
     }
 }

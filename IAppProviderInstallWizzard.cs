@@ -12,6 +12,6 @@ namespace AppVisum.Sys
         int InstallationStepsCount { get; }
         //IEnumerable<IInstallField> GetStep(int step);
         IWizzardStep GetStep(int step);
-        bool HandleStep(int step, object data, ModelStateDictionary modelState);
+        int HandleStep(int step, object data, ModelStateDictionary modelState);
     }
 }

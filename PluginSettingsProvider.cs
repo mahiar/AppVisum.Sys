@@ -38,5 +38,10 @@ namespace AppVisum.Sys
                 session.SaveChanges();
             }
         }
+
+        public void Set(IAppProvider plugin, string key, object value)
+        {
+            Set(plugin, key, value.ToString());
+        }
     }
 }

@@ -121,12 +121,18 @@ namespace AppVisum.Sys
             }
         }
 
-        public IEnumerable<Plugin> GetTypeMatchingPlugins(Type type)
+        public IEnumerable<Plugin> GetTypeMatchingPlugins(Type type, bool onlyEnabled = true)
         {
+            IEnumerable<Plugin> ret;
             if (type.IsInterface)
-                return installedPluggins.Where(p => p.PluginObj.GetType().HasInterface(type));
+                ret = installedPluggins.Where(p => p.PluginObj.GetType().HasInterface(type));
             else
-                return installedPluggins.Where(p => p.PluginObj.GetType() == type);
+                ret = installedPluggins.Where(p => p.PluginObj.GetType() == type);
+            
+            if (onlyEnabled)
+                ret = ret.Where(p => p.IsEnabled);
+
+            return ret;
         }
 
         public IDocumentSession GetDBSession()
@@ -264,6 +270,16 @@ namespace AppVisum.Sys
         public Plugin GetPluginById(Guid id)
         {
             return installedPluggins.SingleOrDefault(p => p.Id == id);
+        }
+
+        public Plugin GetPluginById(string dbid)
+        {
+            return installedPluggins.SingleOrDefault(p => p.DbId == dbid);
+        }
+
+        public string GetPluginId(IAppProvider iAppProvider)
+        {
+            return GetTypeMatchingPlugins(iAppProvider.GetType()).First(p => Object.ReferenceEquals(p.PluginObj, iAppProvider)).DbId;
         }
 
         public void Restart()
