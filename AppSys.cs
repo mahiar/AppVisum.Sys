@@ -23,6 +23,11 @@ namespace AppVisum.Sys
         SetupIncomplete = 32
     }
 
+
+    /// <summary>
+    /// The AppSys class is responsible for handling plugins and connection
+    /// to the main database of the project.
+    /// </summary>
     public sealed class AppSys
     {
         private static volatile AppSys instance = null;
@@ -110,6 +115,10 @@ namespace AppVisum.Sys
             db.Initialize();
         }
 
+        /// <summary>
+        /// Gets the plugin configs.
+        /// </summary>
+        /// <value>The plugin configs.</value>
         public IEnumerable<Configuration.Plugin> PluginConfigs
         {
             get
@@ -121,6 +130,12 @@ namespace AppVisum.Sys
             }
         }
 
+        /// <summary>
+        /// Gets the type matching plugins.
+        /// </summary>
+        /// <param name="type">The type to mach.</param>
+        /// <param name="onlyEnabled">if set to <c>true</c> only returns plugins that are enabled.</param>
+        /// <returns>A list over the plugins that mach the type passed in.</returns>
         public IEnumerable<Plugin> GetTypeMatchingPlugins(Type type, bool onlyEnabled = true)
         {
             IEnumerable<Plugin> ret;
@@ -135,16 +150,29 @@ namespace AppVisum.Sys
             return ret;
         }
 
+
+        /// <summary>
+        /// Gets the DB session.
+        /// </summary>
+        /// <returns>The DB session</returns>
         public IDocumentSession GetDBSession()
         {
             return db.OpenSession();
         }
 
+        /// <summary>
+        /// Gets the plugin settings.
+        /// </summary>
+        /// <value>The plugin settings.</value>
         public PluginSettingsProvider PluginSettings
         {
             get { return pluginSettingsProvider; }
         }
 
+        /// <summary>
+        /// Gets the plugins.
+        /// </summary>
+        /// <value>The plugins.</value>
         public IEnumerable<Plugin> Plugins
         {
             get
@@ -184,6 +212,11 @@ namespace AppVisum.Sys
             }
         }
 
+        /// <summary>
+        /// Hashes the string.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <returns>The hashed string.</returns>
         public string HashString(string input)
         {
             var hasher = new SHA256CryptoServiceProvider();
@@ -197,6 +230,12 @@ namespace AppVisum.Sys
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Encrypts the string.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <param name="key">The key.</param>
+        /// <returns>The encrypted string.</returns>
         public string EncryptString(string input, string key)
         {
             byte[] result;
@@ -232,6 +271,12 @@ namespace AppVisum.Sys
             return Convert.ToBase64String(result);
         }
 
+        /// <summary>
+        /// Decrypts the string.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <param name="key">The key.</param>
+        /// <returns>The decrypted string</returns>
         public string DecryptString(string input, string key)
         {
             byte[] result;
@@ -267,21 +312,39 @@ namespace AppVisum.Sys
             return Encoding.UTF8.GetString(result);
         }
 
+        /// <summary>
+        /// Gets the plugin by id.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <returns></returns>
         public Plugin GetPluginById(Guid id)
         {
             return installedPluggins.SingleOrDefault(p => p.Id == id);
         }
 
+        /// <summary>
+        /// Gets the plugin by id.
+        /// </summary>
+        /// <param name="dbid">The dbid.</param>
+        /// <returns></returns>
         public Plugin GetPluginById(string dbid)
         {
             return installedPluggins.SingleOrDefault(p => p.DbId == dbid);
         }
 
+        /// <summary>
+        /// Gets the plugin id.
+        /// </summary>
+        /// <param name="iAppProvider">The plugin.</param>
+        /// <returns></returns>
         public string GetPluginId(IAppProvider iAppProvider)
         {
             return GetTypeMatchingPlugins(iAppProvider.GetType()).First(p => Object.ReferenceEquals(p.PluginObj, iAppProvider)).DbId;
         }
 
+        /// <summary>
+        /// Restarts the application.
+        /// </summary>
         public void Restart()
         {
             try
