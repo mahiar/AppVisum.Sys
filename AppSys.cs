@@ -19,8 +19,9 @@ namespace AppVisum.Sys
         Instance = 2,
         Enabled = 4,
         Model = 8,
-        Install = 16,
-        SetupIncomplete = 32
+        Content = 16,
+        Install = 32,
+        SetupIncomplete = 64
     }
 
 
@@ -84,6 +85,8 @@ namespace AppVisum.Sys
                 pl.PluginObj = (IAppProvider)Activator.CreateInstance(t);
                 if (t.HasInterface(typeof(IAppModelProvider)))
                     status |= AppPluginStatus.Model;
+                if (t.HasInterface(typeof(IAppContentProvider)))
+                    status |= AppPluginStatus.Content;
                 if (t.HasInterface(typeof(IAppInstancedProvider)))
                     status |= AppPluginStatus.Instance;
                 if (t.HasInterface(typeof(IAppProviderInstallWizzard)))
@@ -113,6 +116,14 @@ namespace AppVisum.Sys
         {
             db = new DocumentStore { Url = "http://localhost:8080" };
             db.Initialize();
+        }
+
+        public string ApplicationName
+        {
+            get
+            {
+                return "AppVisum.com";
+            }
         }
 
         /// <summary>
@@ -196,6 +207,8 @@ namespace AppVisum.Sys
                     pl.PluginObj = p;
                     if (t.HasInterface(typeof(IAppModelProvider)))
                         status |= AppPluginStatus.Model;
+                    if (t.HasInterface(typeof(IAppContentProvider)))
+                        status |= AppPluginStatus.Content;
                     if (t.HasInterface(typeof(IAppInstancedProvider)))
                         status |= AppPluginStatus.Instance;
                     if (t.HasInterface(typeof(IAppProviderInstallWizzard)))
