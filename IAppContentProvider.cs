@@ -8,5 +8,6 @@ namespace AppVisum.Sys
 {
     public interface IAppContentProvider : IAppProvider
     {
+        IEnumerable<Type> GetControllerTypes();
     }
 }

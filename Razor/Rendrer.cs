@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using System.Web.WebPages;
+using System.Web.Routing;
 
 namespace AppVisum.Sys.Razor
 {
@@ -30,9 +31,10 @@ namespace AppVisum.Sys.Razor
             ControllerContext cc = new ControllerContext();
             cc.Controller = null;
             cc.HttpContext = new HttpContextWrapper(HttpContext.Current);
+            cc.RouteData = RouteTable.Routes.GetRouteData(cc.HttpContext);
 
             ViewContext vc = new ViewContext(cc, this, new ViewDataDictionary<T2>(viewData), new TempDataDictionary(), writer);
-
+            vc.RouteData = cc.RouteData;
 
             Render(vc, writer);
 

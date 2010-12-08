@@ -16,7 +16,7 @@ namespace AppVisum.Sys.Configuration
         public Plugin()
         {
             Id = AppVisum.Sys.Plugin.GetPluginDbId(Guid.NewGuid());
-            Bindings = new List<PluginBinding>();
+            Bindings = new List<string>();
             Settings = new Dictionary<string, string>();
         }
 
@@ -34,6 +34,6 @@ namespace AppVisum.Sys.Configuration
 
         public Dictionary<string, string> Settings { get; set; }
 
-        public IList<PluginBinding> Bindings { get; set; }
+        public IList<string> Bindings { get; set; }
     }
 }

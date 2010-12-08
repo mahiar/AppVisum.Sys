@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace AppVisum.Sys
 {
@@ -14,11 +15,11 @@ namespace AppVisum.Sys
         private IAppProvider plugin;
         private string instanceName;
         private Guid id;
-        private IList<Configuration.PluginBinding> bindings;
+        private IList<string> bindings;
 
         internal Plugin()
         {
-            bindings = new List<Configuration.PluginBinding>();
+            bindings = new List<string>();
         }
 
         internal AppPluginStatus Status
@@ -40,7 +41,7 @@ namespace AppVisum.Sys
         /// Gets the bindings.
         /// </summary>
         /// <value>The bindings.</value>
-        public IList<Configuration.PluginBinding> Bindings
+        public IList<string> Bindings
         {
             get { return bindings; }
             internal set { bindings = value; }
@@ -60,6 +61,7 @@ namespace AppVisum.Sys
         /// Gets or name of the instance.
         /// </summary>
         /// <value>The name of the instance.</value>
+        [Display(Name="Instance name")]
         public String InstanceName
         {
             get { return instanceName; }

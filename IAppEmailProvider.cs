@@ -20,7 +20,8 @@ namespace AppVisum.Sys
 
     public interface IAppEmailSender
     {
+        IAppEmailProvider Provider { get; }
         IAppEmailAccount Account { get; }
-        void Send(MailMessage message);
+        void Send(MailMessage message, string senderName = null);
     }
 }

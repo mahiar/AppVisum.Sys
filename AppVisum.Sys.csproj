@@ -53,8 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSys.cs" />
+    <Compile Include="Attributes\RouteAttribute.cs" />
     <Compile Include="Configuration\Plugin.cs" />
-    <Compile Include="Configuration\PluginBinding.cs" />
+    <Compile Include="ControllerFactory.cs" />
     <Compile Include="CustomAnnotations\EmailAttribute.cs" />
     <Compile Include="CustomAnnotations\FunctionPickAttribute.cs" />
     <Compile Include="CustomAnnotations\MatchesAttribute.cs" />
@@ -64,16 +65,20 @@
     <Compile Include="IAppModelProvider.cs" />
     <Compile Include="IAppProvider.cs" />
     <Compile Include="IAppProviderInstallWizzard.cs" />
-    <Compile Include="IAppProviderModelBinder.cs" />
+    <Compile Include="ModelBinders\IAppProviderModelBinder.cs" />
     <Compile Include="Install\IWizzardStep.cs" />
     <Compile Include="Install\WizzardStep.cs" />
+    <Compile Include="ModelBinders\PluginModelBinder.cs" />
     <Compile Include="Plugin.cs" />
+    <Compile Include="PluginController.cs" />
     <Compile Include="PluginSettingsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Razor\Rendrer.cs" />
     <Compile Include="TypeConvertors\IAppProviderTypeConverter.cs" />
     <Compile Include="TypeExtensions.cs" />
     <Compile Include="ModelBinders\WizzardStepModelBinder.cs" />
+    <Compile Include="Utilities\ObjectMerger.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

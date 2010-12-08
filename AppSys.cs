@@ -50,7 +50,11 @@ namespace AppVisum.Sys
         private DocumentStore db;
         private List<Plugin> installedPluggins = new List<Plugin>();
 
-        internal IEnumerable<Plugin> InstalledPlugins
+        /// <summary>
+        /// Gets the installed plugins.
+        /// </summary>
+        /// <value>The installed plugins.</value>
+        public IEnumerable<Plugin> InstalledPlugins
         {
             get
             {
@@ -99,6 +103,8 @@ namespace AppVisum.Sys
                 pl.Status = status;
                 pl.InstanceName = p.InstanceName;
                 pl.Id = Plugin.GetPluginId(p.Id);
+                foreach (var binding in p.Bindings)
+                    pl.Bindings.Add(binding);
 
                 installedPluggins.Add(pl);
             }
@@ -230,7 +236,7 @@ namespace AppVisum.Sys
         /// </summary>
         /// <param name="input">The input.</param>
         /// <returns>The hashed string.</returns>
-        public string HashString(string input)
+        public static string HashString(string input)
         {
             var hasher = new SHA256CryptoServiceProvider();
             byte[] hash = hasher.ComputeHash(Encoding.UTF8.GetBytes(input));
@@ -249,7 +255,7 @@ namespace AppVisum.Sys
         /// <param name="input">The input.</param>
         /// <param name="key">The key.</param>
         /// <returns>The encrypted string.</returns>
-        public string EncryptString(string input, string key)
+        public static string EncryptString(string input, string key)
         {
             byte[] result;
 
@@ -290,7 +296,7 @@ namespace AppVisum.Sys
         /// <param name="input">The input.</param>
         /// <param name="key">The key.</param>
         /// <returns>The decrypted string</returns>
-        public string DecryptString(string input, string key)
+        public static string DecryptString(string input, string key)
         {
             byte[] result;
 
@@ -307,7 +313,7 @@ namespace AppVisum.Sys
             algorithm.Padding = PaddingMode.PKCS7;
 
             // Get input byte-data
-            byte[] data = Encoding.UTF8.GetBytes(input);
+            byte[] data = Convert.FromBase64String(input);
 
             // Attempt to encrypt
             try
@@ -358,7 +364,7 @@ namespace AppVisum.Sys
         /// <summary>
         /// Restarts the application.
         /// </summary>
-        public void Restart()
+        public static void Restart()
         {
             try
             {
