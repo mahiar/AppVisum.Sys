@@ -45,6 +45,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,7 +56,7 @@
     <Compile Include="AppSys.cs" />
     <Compile Include="Attributes\RouteAttribute.cs" />
     <Compile Include="Configuration\Plugin.cs" />
-    <Compile Include="ControllerFactory.cs" />
+    <Compile Include="AppVisumControllerFactory.cs" />
     <Compile Include="CustomAnnotations\EmailAttribute.cs" />
     <Compile Include="CustomAnnotations\FunctionPickAttribute.cs" />
     <Compile Include="CustomAnnotations\MatchesAttribute.cs" />
@@ -63,17 +64,27 @@
     <Compile Include="IAppEmailProvider.cs" />
     <Compile Include="IAppInstancedProvider.cs" />
     <Compile Include="IAppModelProvider.cs" />
+    <Compile Include="IAppMultiRoute.cs" />
     <Compile Include="IAppProvider.cs" />
     <Compile Include="IAppProviderInstallWizzard.cs" />
+    <Compile Include="IAppSysSetup.cs" />
     <Compile Include="ModelBinders\IAppProviderModelBinder.cs" />
     <Compile Include="Install\IWizzardStep.cs" />
     <Compile Include="Install\WizzardStep.cs" />
     <Compile Include="ModelBinders\PluginModelBinder.cs" />
     <Compile Include="Plugin.cs" />
+    <Compile Include="Razor\ApplicationPartRegistry.cs" />
+    <Compile Include="Razor\CompiledRazorBuildProvider.cs" />
+    <Compile Include="Razor\CompiledVirtualFile.cs" />
+    <Compile Include="Razor\CompiledVirtualPathProvider.cs" />
+    <Compile Include="Razor\CompiledWebViewPageView.cs" />
+    <Compile Include="Razor\DictionaryBasedApplicationPartRegistry.cs" />
     <Compile Include="PluginController.cs" />
     <Compile Include="PluginSettingsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Razor\IApplicationPartRegistry.cs" />
     <Compile Include="Razor\Rendrer.cs" />
+    <Compile Include="Razor\VirtualPathFactoryManagerViewEngine.cs" />
     <Compile Include="TypeConvertors\IAppProviderTypeConverter.cs" />
     <Compile Include="TypeExtensions.cs" />
     <Compile Include="ModelBinders\WizzardStepModelBinder.cs" />

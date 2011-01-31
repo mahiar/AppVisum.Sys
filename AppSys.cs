@@ -12,16 +12,44 @@ using System.Security.Cryptography;
 
 namespace AppVisum.Sys
 {
+    /// <summary>
+    /// A enum used to describe the status of a plugin
+    /// </summary>
     [Flags]
-    public enum AppPluginStatus : short
+    public enum AppPluginStatus : int
     {
+        /// <summary>
+        /// Plugin is new (not installed)
+        /// </summary>
         New = 1,
+        /// <summary>
+        /// Plugin is of instance-type (meaning there can be more than one of it)
+        /// </summary>
         Instance = 2,
+        /// <summary>
+        /// Plugin is enabled
+        /// </summary>
         Enabled = 4,
+        /// <summary>
+        /// Plugin is a modelprovider
+        /// </summary>
         Model = 8,
+        /// <summary>
+        /// Plugin is a contentprovider
+        /// </summary>
         Content = 16,
+        /// <summary>
+        /// Plugin has installwizzard
+        /// </summary>
         Install = 32,
-        SetupIncomplete = 64
+        /// <summary>
+        /// Plugins installwizzard is incomplete
+        /// </summary>
+        SetupIncomplete = 64,
+        /// <summary>
+        /// Plugin can have multiple bindings
+        /// </summary>
+        MultiBound = 128
     }
 
 
@@ -67,6 +95,9 @@ namespace AppVisum.Sys
         [ImportMany]
         private IEnumerable<IAppProvider> Providers { get; set; }
 
+        [Import]
+        public IAppSysSetup SetupController { get; private set; }
+
         private AppSys()
         {
             Compose();
@@ -93,6 +124,8 @@ namespace AppVisum.Sys
                     status |= AppPluginStatus.Content;
                 if (t.HasInterface(typeof(IAppInstancedProvider)))
                     status |= AppPluginStatus.Instance;
+                if (t.HasInterface(typeof(IAppMultiRoute)))
+                    status |= AppPluginStatus.MultiBound;
                 if (t.HasInterface(typeof(IAppProviderInstallWizzard)))
                 {
                     status |= AppPluginStatus.Install;
@@ -107,7 +140,11 @@ namespace AppVisum.Sys
                     pl.Bindings.Add(binding);
 
                 installedPluggins.Add(pl);
+                if (pl.IsEnabled && pl.IsContentProvider)
+                    Razor.ApplicationPartRegistry.Register(pl.PluginObj.GetType().Assembly);
             }
+
+            Razor.ApplicationPartRegistry.Register(SetupController.GetType().Assembly);
         }
 
         private void Compose()
@@ -374,6 +411,16 @@ namespace AppVisum.Sys
             {
 
             }
+        }
+
+        /// <summary>
+        /// Resolves a plugin by type.
+        /// </summary>
+        /// <typeparam name="T">The plugintype</typeparam>
+        /// <returns>The pluginobject.</returns>
+        public T Resolve<T>()
+        {
+            return GetTypeMatchingPlugins(typeof(T)).Select(p => p.P<T>()).Single();
         }
     }
 }

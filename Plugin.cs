@@ -158,7 +158,7 @@ namespace AppVisum.Sys
         }
 
         /// <summary>
-        /// Gets a value indicating whether this plugin is  content provider.
+        /// Gets a value indicating whether this plugin is a content provider.
         /// </summary>
         /// <value>
         /// 	<c>true</c> if this plugin is a content provider; otherwise, <c>false</c>.
@@ -166,6 +166,17 @@ namespace AppVisum.Sys
         public bool IsContentProvider
         {
             get { return (state & AppPluginStatus.Content) == AppPluginStatus.Content; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this plugin is multi-bindable.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if this plugin is multi-bindable; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsMultiBindable
+        {
+            get { return (state & AppPluginStatus.MultiBound) == AppPluginStatus.MultiBound; }
         }
 
         /// <summary>
